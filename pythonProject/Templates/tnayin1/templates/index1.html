@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='style1.css')}}">
+</head>
+<body>
+<div class="frame">
+<form action="{{url_for('home')}}">
+    <input type="text" name="ner" id="inp" placeholder="title / description">
+    <input type="submit" value="SEARCH" id="knopka" style="background:grey">
+
+</form>
+
+{%for i in l%}
+<h1 style="margin-top:50px">{{i['title']}}</h1>
+
+<p class="text" style="font-size:21px"> <b>{{i['description']}}</b></p>
+<a href="{{url_for('read_more', id=l.index(i))}}">Read more</a>
+{%endfor%}
+</div>
+</body>
+</html>

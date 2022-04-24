@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Add Note</title>
+    <style>
+        .error-text {
+            font-size: 11px;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<h1>Add note</h1>
+<form action="{{ url_for('add_note') }}" method="POST" enctype="multipart/form-data">
+    <div>
+        <label for="title">
+            Title
+        </label>
+        <input type="text" name="title" id="title" value="{{form_data.get('title', '')}}">
+        {% if errors.get('title') %}
+        <p class="error-text">{{errors.get('title')}}</p>
+        {% endif %}
+    </div>
+
+    <div>
+        <label for="description">
+            Description
+        </label>
+        <textarea type="description" name="description" id="description">
+        </textarea>
+        {% if errors.get('description') %}
+        <p class="error-text">{{errors.get('description', '')}}</p>
+        {% endif %}
+    </div>
+    <div>
+        <label for="description">
+            File
+        </label>
+
+        <input type="file" name="note_file">
+    </div>
+
+    {% if errors.get('form_error') %}
+    <p class="error-text">{{errors.get('form_error')}}</p>
+    {% endif %}
+
+    <input type="submit" value="Add note">
+
+</form>
+
+</body>
+</html>

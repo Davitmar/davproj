@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>Sign up</title>
+    <style>
+        .error-text {
+            font-size: 11px;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<h1>Sign Up</h1>
+<form action="{{ url_for('signup') }}" method="POST">
+    <div>
+        <label for="username">
+            Username
+        </label>
+        <input type="text" name="username" id="username" value="{{form_data.get('username', '')}}">
+        {% if errors.get('username') %}
+        <p class="error-text">{{errors.get('username')}}</p>
+        {% endif %}
+    </div>
+    </br>
+    <div>
+        <label for="password">
+            Password
+        </label>
+        <input type="password" name="password" id="password">
+        {% if errors.get('password') %}
+        <p class="error-text">{{errors.get('password', '')}}</p>
+        {% endif %}
+    </div>
+    </br>
+
+    <div>
+        <label for="confirm_password">
+            Confirm Password
+        </label>
+        <input type="password" name="confirm_password" id="confirm_password">
+        {% if errors.get('confirm_password') %}
+        <p class="error-text">{{errors.get('confirm_password', '')}}</p>
+        {% endif %}
+    </div>
+    </br>
+
+    {% if errors.get('form_error') %}
+    <p class="error-text">{{errors.get('form_error')}}</p>
+    {% endif %}
+
+    <input type="submit" value="Signup">
+
+</form>
+<p>If you already have an account please <a href="{{url_for('login')}}">log in</a></p>
+</body>
+</html>

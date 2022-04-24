@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Profile</title>
+</head>
+<body>
+<h1>Profile</h1>
+
+<p>id = {{current_user['id']}}</p>
+<p>username = {{current_user['username']}}</p>
+<hr>
+{% for note in notes %}
+<p>Title: {{ note.title }}</p>
+{% if note.description %}
+<p>Description: {{ note.description }}</p>
+{% endif %}
+{% if note.file and note.file.endswith('png') %}
+<img height="100" src="{{ url_for('download', note_id=note.id)}}">
+{% endif %}
+<br>
+{% if note.file %}
+<a download href="{{ url_for('download', note_id=note.id)}}">Download</a>
+{% endif %}
+<hr>
+{% endfor %}
+
+
+<a href="{{ url_for('add_note')}}"> Add note </a>
+<br>
+<a href="{{ url_for('logout')}}"> Logout </a>
+</body>
+</html>

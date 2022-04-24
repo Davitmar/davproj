@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Signup</title>
+    <style>
+        .error-text {
+            font-size: 12px;
+            color: red;
+            margin-left:10px;
+        }
+        .form_div {
+            height: 50px;
+            margin-top:20px
+        }
+        .password{margin-left:55px;}
+    </style>
+</head>
+<body>
+<h1>Signup</h1>
+<form action="{{ url_for('signup') }}" method="POST">
+    <div class="form_div">
+        <label for="username">
+            Username
+        </label>
+        <input type="text" name="s_username" class="password" value="{{s_form_data.get('s_username', '')}}">
+        {% if errors.get('s_username') %}
+        <p class="error-text">{{errors.get('s_username')}}</p>
+        {%endif %}
+    </div>
+
+    <div class="form_div">
+        <label for="username">
+            Password
+        </label>
+        <input type="password" name="s_password" class="password">
+        {% if errors.get('s_password') %}
+        <p class="error-text">{{errors.get('s_password', '')}}</p>
+        {%endif %}
+        {% if errors.get('pass_length') %}
+        <p class="error-text">{{errors.get('pass_length', '')}}</p>
+        {%endif %}
+    </div>
+
+    <div class="form_div">
+        <label for="username">
+            Confirm password
+        </label>
+        <input type="password" name="conf_pass" id="conf_pass">
+        {% if errors.get('conf_pass') %}
+        <p class="error-text">{{errors.get('conf_pass', '')}}</p>
+        {%endif %}
+    </div>
+
+    {% if errors.get('different_pass') %}
+    <p class="error-text">{{errors.get('different_pass')}}</p>
+    {%endif %}
+    {% if errors.get('exist') %}
+    <p class="error-text">{{errors.get('exist', '')}}</p>
+    {%endif%}
+    <input type="submit" value="Signup" >
+
+</form>
+</body>
+</html>

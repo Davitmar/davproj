@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>add</title>
+    <style>
+        .error-text {
+            font-size: 12px;
+            color: red;
+            margin-left:10px;
+        }
+        .form_div {
+            height: 50px;
+            margin-top:20px
+        }
+        .password{margin-left:55px;}
+    </style>
+</head>
+<body>
+<h1>Add Note</h1>
+<form enctype=multipart/form-data action="{{ url_for('add') }}" method="POST">
+    <div class="form_div">
+        <label for="username">
+            Title
+        </label>
+        <input type="text" name="title" class="password" value="{{form_data.get('title', '')}}">
+        {% if errors.get('title') %}
+        <p class="error-text">{{errors.get('title')}}</p>
+        {%endif %}
+    </div>
+
+    <div class="form_div">
+        <label for="username">
+            Description
+        </label>
+        <textarea type="text" name="desc" class="password"></textarea>
+        {% if errors.get('desc') %}
+        <p class="error-text">{{errors.get('desc', '')}}</p>
+        {%endif %}
+
+    </div>
+
+    <div class="form_div">
+        <label for="username">
+            File
+        </label>
+        <input type="file" name="file" id="conf_pass">
+        {% if errors.get('file') %}
+        <p class="error-text">{{errors.get('file', '')}}</p>
+        {%endif %}
+    </div>
+
+
+    {% if errors.get('exist') %}
+    <p class="error-text">{{errors.get('exist', '')}}</p>
+    {%endif%}
+    <input type="submit" value="Add" >
+
+</form>
+</body>
+</html>
