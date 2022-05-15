@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+<br><br>
+<div style="float:right;margin-right:20px" ;>
+    {%if request.user.is_authenticated%}
+
+    <a href="{% url 'user_auth:logout' %}">
+        <button class="btn btn-primary btn-sm" >Logout</button>
+    </a>
+    {%else%}
+
+    <a style="text-decoration:none" href="{% url 'user_auth:register' %}">
+        <button  class="btn btn-primary btn-sm">SignUp</button>
+    </a>
+    <a href="{% url 'user_auth:login' %}" style="margin-left:5px;text-decoration:none">
+        <button  class="btn btn-primary btn-sm">Login</button>
+    </a>
+    {%endif%}
+</div>
+<div class="container d-flex justify-content-center mt-12" style="width: 70%;">
+
+    <div class="col mt-12">
+        <form action="{% url 'scrap:get_aphs' %}" method="GET">
+
+            {{ search_form }}
+            <input type="submit" class="btn btn-primary btn-sm" value="Search" style="float:right">
+        </form>
+    </div>
+</div>
+
+
+<div class="container d-flex mt-5" style="width: 70%;">
+    <div class="col">
+
+
+
+        {% for aph in object_list %}
+        <div style="border:6px inset grey;border-radius: 7px;padding:10px">
+
+
+            <h5 class="text-center"><a style="text-decoration:none;color:black;" href="{%url 'scrap:aph' aph.id%}"><i>{{ aph.quota }}</i></a></h5>
+            <br>
+            {%if aph.user%}
+
+           <td class="text-center">by: <b>{%if aph.user.first_name%}{{aph.author}}{%else%}{{aph.user.username}}{%endif%}</b></td>
+           {%else%}
+            <td class="text-center">by <b><a style="color:grey" target="_blank" href="https://en.wikipedia.org/wiki/{{aph.author}}">{{ aph.author }}</a></b></td>
+            {%endif%}
+            <br><br>
+
+            <td>Tags: {% for tag in aph.tag.all %}<a style="text-decoration:none;" href="{% url 'scrap:get_aphs' %}?tag={{tag.id}}"><button style="background:grey;border-radius:4px;">{{ tag }} </button> </a>{% endfor %}</td>
+
+
+   {%if request.user.is_authenticated and request.user == aph.user %}
+
+<a href="{% url 'scrap:delete' aph.id %}" ><button style="float:right;margin-left:5px;background:#dc143c" class="btn btn-primary btn-sm">Delete </button></a>
+<a href="{% url 'scrap:update' aph.id %}" ><button style="float:right" class="btn btn-primary btn-sm">Update </button></a>
+
+    {%endif%}
+            </div>
+ <br><br>
+
+
+        {% endfor %}
+
+        {%if request.user.is_authenticated%}
+        <a class="btn btn-primary" href="{% url 'scrap:add' %}">Add new quote</a><br><br>
+        {%endif%}
+        {% for contact in page_obj %}
+    {# Each "contact" is a Contact model object. #}
+    {{ contact.full_name|upper }}
+
+{% endfor %}
+
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+        </div>
+    </div>
+    {% endblock content %}

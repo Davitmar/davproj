@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{%block title%}
+        <title>{{title}}</title>
+    {%endblock title%}
+<br>
+{% block content %}
+<br><br>
+
+{%if request.user.is_authenticated%}
+<form method="post">{% csrf_token %}
+    <p>Are you sure you want to delete "{{ object }}"?</p>
+    {{ form }}
+    <input class="btn btn-primary btn-sm" type="submit" value="Confirm">
+</form>
+{%endif%}
+{% endblock content %}

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{%load static%}
+
+
+
+{% block content %}
+
+
+
+
+
+<div style="margin:20px;border-style: double;padding:10px">
+        <p >{{ object.quota }}</p><br>
+         {%if not object.author%}
+            <td class="text-center">by: <b>{{ object.user.first_name }} {{ object.user.last_name }}</b></td>
+            {%else%}
+            <td class="text-center">by <b>{{ object.author }}</b></td>
+            {%endif%}
+        <br><br>
+        <p > {% for tag in object.tag.all %}{{ tag }} {% endfor %}</p><br>
+
+</div>
+
+<a href="{% url 'scrap:get_aphs' %}">Go back</a>
+{%endblock%}
+
+<!--<a href="{% url 'get_cars' %}">Go back</a>-->
+
+
