@@ -3,19 +3,20 @@
 
 {% block content %}
 
+
 <br><br>
 <div style="float:right;margin-right:20px" ;>
     {%if request.user.is_authenticated%}
 
-    <a href="{% url 'user_auth:logout' %}">
+    <a href="{% url 'accounts:logout' %}">
         <button class="btn btn-primary btn-sm" >Logout</button>
     </a>
     {%else%}
 
-    <a style="text-decoration:none" href="{% url 'user_auth:register' %}">
+    <a style="text-decoration:none" href="{% url 'accounts:register' %}">
         <button  class="btn btn-primary btn-sm">SignUp</button>
     </a>
-    <a href="{% url 'user_auth:login' %}" style="margin-left:5px;text-decoration:none">
+    <a href="{% url 'accounts:login' %}" style="margin-left:5px;text-decoration:none">
         <button  class="btn btn-primary btn-sm">Login</button>
     </a>
     {%endif%}
@@ -41,17 +42,39 @@
         <div style="border:6px inset grey;border-radius: 7px;padding:10px">
 
 
-            <h5 class="text-center"><a style="text-decoration:none;color:black;" href="{%url 'scrap:aph' aph.id%}"><i>{{ aph.quota }}</i></a></h5>
+            <h5 class="text-center"><a style="text-decoration:none;color:black;" href="{%url 'scrap:aph' aph.id%}"><i> {{ aph.quota }}</i></a></h5>
             <br>
+
             {%if aph.user%}
 
            <td class="text-center">by: <b>{%if aph.user.first_name%}{{aph.author}}{%else%}{{aph.user.username}}{%endif%}</b></td>
-           {%else%}
+            {%else%}
             <td class="text-center">by <b><a style="color:grey" target="_blank" href="https://en.wikipedia.org/wiki/{{aph.author}}">{{ aph.author }}</a></b></td>
+            {%endif%}
+            {%if request.user.is_authenticated%}
+
+            <a href="{% url 'scrap:mess'%}?rec={{aph.user.username}}">Messege</a>
+
+            {%endif%}
+            <p style="margin-bottom:-5%">{{ aph.date.date }}</p>
+            {%if aph.picture%}
+            <img src="{{ aph.picture.url }}" style="width:70px;margin-left:40%" alt="My image">
             {%endif%}
             <br><br>
 
             <td>Tags: {% for tag in aph.tag.all %}<a style="text-decoration:none;" href="{% url 'scrap:get_aphs' %}?tag={{tag.id}}"><button style="background:grey;border-radius:4px;">{{ tag }} </button> </a>{% endfor %}</td>
+
+{%if request.user.is_authenticated %}
+
+{%if request.user in aph.fav.all %}
+          <a href="{% url 'scrap:fav_add' aph.id %}" ><button style="float:top;margin-left:3px;background:#c4341a" class="btn btn-primary btn-sm">rem from favs </button></a>
+{%else%}
+            <a href="{% url 'scrap:fav_add' aph.id %}" ><button style="float:top;margin-left:10px;background:#749d52" class="btn btn-primary btn-sm">Add to favs </button></a>
+
+
+  {%endif%}
+
+            {%endif%}
 
 
    {%if request.user.is_authenticated and request.user == aph.user %}

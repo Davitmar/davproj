@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+
+<br><br>
+<div style="float:right;margin-right:20px" ;>
+    {%if request.user.is_authenticated%}
+
+
+
+</div>
+<div class="container d-flex justify-content-center mt-12" style="width: 70%;">
+
+
+        <form action="{% url 'scrap:users_list' %}" method="GET">
+
+            {{ search_form }}
+            <input type="submit" class="btn btn-primary btn-sm" value="Search" style="float:right">
+        </form>
+    </div>
+
+
+
+<div class="container d-flex mt-5" style="width: 70%;">
+    <div class="col">
+
+
+
+        {% for us in object_list %}
+        <div style="border:6px inset grey;border-radius: 7px;padding:10px">
+                {%for photo in main_photos%}
+                {%if photo.user_photo == us%}
+
+            <img src="{{ photo.image.url }}" style="width:60px;margin:1%" alt="My image">
+{%endif%}
+            {%endfor%}
+            <h5 class="text-center"><a style="text-decoration:none;color:black;" href="{%url 'scrap:user_view' us.id%}"><i> {{ us.username }}</i></a></h5>
+            <br>
+
+
+           <td class="text-center"> <b>{%if us.first_name%}{{us.first_name}} {{us.last_name}}{%endif%}</b></td>
+
+
+            <a href="{% url 'scrap:mess'%}?rec={{us.username}}">Messege</a>
+
+{%if request.user != us %}
+
+    {%for i in friend%}
+
+        {%if i.friend_sender == us or i.friend_reciever == us%}
+            {%if i.subscribe == True%}
+                  <h5 style="margin:30px;color:green" class="text-center"> Friend</h5>
+            {%elif i.friend_reciever == us%}
+      <a href="" ><button style="float:top;margin-left:3px;background:orange" class="btn btn-primary btn-sm">sent </button></a>
+            {%endif%}
+          {%endif%}
+{%endfor%}
+
+
+
+
+
+{%endif%}
+
+
+
+
+
+
+            <br><br>
+
+
+           </div>
+ <br><br>
+
+{%endfor%}
+
+    </div>
+    </div>
+
+
+        {% for contact in page_obj %}
+    {# Each "contact" is a Contact model object. #}
+    {{ contact.full_name|upper }}
+
+{% endfor %}
+
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+        </div>
+    </div>
+{% endif %}
+    {% endblock content %}

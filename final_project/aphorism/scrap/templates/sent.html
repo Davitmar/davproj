@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+<br><br>
+<div >
+
+
+
+
+        {% for mes in object_list %}
+        <div style="border:6px inset grey;border-radius: 7px;padding:10px;width:60%">
+        {%if request.user == mes.reciever%}
+            <p class="text-center" style="color:black;background:#EDBB99" >incoming from {{ mes.sender }}</p>
+            {%else%}
+            <p class="text-center" style="color:black;background:#D7DBDD" >sending to {{ mes.reciever }}</p>
+            {%endif%}
+            <h5 class="text-center" style="color:black;" > {{ mes.messege }}</h5>
+            <br>
+        </div>
+</div>
+
+    {%endfor%}
+
+
+    {% endblock content %}

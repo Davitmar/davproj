@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="margin:20px">
+<br>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input class="btn btn-primary btn-sm" type="submit" value="Login">
+</form><br>
+<p>If you are a new user<a href="{% url 'accounts:register' %}"> click here</a></p>
+<p>forget password<a href="{% url 'accounts:password_reset' %}"> click here</a></p>
+</div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+<br><br>
+<div class="col mt-12">
+        <form action="{% url 'scrap:sent' %}" method="GET">
+
+            {{ search_form }}
+            <input type="submit" class="btn btn-primary btn-sm" value="Search" >
+        </form>
+    </div><br>
+
+{% for mes in object_list %}
+<div style="border:6px inset grey;border-radius: 7px;padding:10px;width:60%">
+
+    <a href="{% url 'scrap:mess' %}?rec={{mes.sender}}{{mes.reciever}}" style="color:black;background:grey">
+        <b>{% if request.user == mes.reciever %}{{mes.sender.username }}
+        {%else%} {{ mes.reciever.username }}{%endif%}</b></a>
+    <p class="text-center" style="color:black"> {{ mes.messege }} </p>
+</div>
+{%endfor%}
+<br>
+
+
+{% endblock content %}>

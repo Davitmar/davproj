@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView
 from django.shortcuts import render, HttpResponse, redirect
@@ -6,13 +7,13 @@ from django.urls import reverse, reverse_lazy
 from .forms import UserRegForm, UserLoginForm
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import logout
-
+from scrap.models import UsersPhotos
 
 
 class RegisterUser(CreateView):
     form_class = UserRegForm
     template_name = 'register.html'
-    success_url = reverse_lazy('user_auth:login')
+    success_url = reverse_lazy('accounts:login')
 
 
 class LoginUser(LoginView):
@@ -26,3 +27,10 @@ class LoginUser(LoginView):
 def user_logout(request):
     logout(request)
     return redirect('scrap:get_aphs')
+
+
+@login_required
+def settings(request):
+    data={}
+    data['photos'] = UsersPhotos.objects.filter(user_photo=request.user).all()
+    return render(request, 'registration/acc_settings.html',data)

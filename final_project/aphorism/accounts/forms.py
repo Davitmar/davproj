@@ -8,12 +8,13 @@ class UserRegForm(UserCreationForm):
     username = forms.CharField(label='Username', required=True, widget=forms.TextInput(attrs={'class': 'formclass'}))
     first_name = forms.CharField(label='First Name', required=True,widget=forms.TextInput(attrs={'class': 'formclass'}))
     last_name = forms.CharField(label='Last Name',required=True, widget=forms.TextInput(attrs={'class': 'formclass'}))
+    email = forms.EmailField(label='E-mail',required=True, widget=forms.EmailInput(attrs={'class': 'formclass'}))
     password1 = forms.CharField(label='Password', required=True,widget=forms.PasswordInput(attrs={'class': 'formclass'}))
     password2 = forms.CharField(label='Password', required=True,widget=forms.PasswordInput(attrs={'class': 'formclass'}))
 
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'password1', 'password2')
+        fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2')
 
 
 
@@ -22,3 +23,8 @@ class UserLoginForm(AuthenticationForm):
     password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'class': 'formclass'}))
 
 
+# dav
+# dav
+# mar
+# davmarabyan@mail.ru
+# wwwwmmmm11

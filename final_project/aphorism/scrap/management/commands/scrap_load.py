@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from scrap.models import Quotas, Authors, Tags
+from scrap.models import Quotas, Authors, Tags, Messege
 from bs4 import BeautifulSoup
 import requests
 
@@ -33,10 +33,4 @@ class Command(BaseCommand):
                 t, _ = Tags.objects.get_or_create(tag=tag)
 
                 q.tag.add(t)
-        #
-        # Authors.objects.all().delete()
-        # Tags.objects.all().delete()
-        #
-        # Quotas.objects.all().delete()
 
-        #print(Quotas.objects.values('tag'))

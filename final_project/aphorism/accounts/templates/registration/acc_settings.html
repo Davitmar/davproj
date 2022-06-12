@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="margin:20px;float:left">
+        <ul>
+                <li>Usarname <b>{{request.user.username}}</b></li><br>
+                <li>First_name <b>{{request.user.first_name}}</b></li><br>
+                <li>Last_name <b>{{request.user.last_name}}</b></li><br>
+                <li>E-mail <b>{{request.user.email}}</b></li><br>
+</ul></div>
+<div style="margin-left:20px">
+    <table><tr>
+{%for photo in photos%}
+
+      <th><img src="{{ photo.image.url }}" style="width:100px;margin:1%" alt="My image"></th>
+{%if photo.is_main != True%}
+    <td><a  href="{%url 'scrap:set_main' photo.id%}">main</a></td>
+    {%endif%}
+        <td><a  href="{%url 'scrap:delete_photo' photo.id%}">del</a></td>
+                    {%endfor%}
+
+   </tr> </table>
+ <a class="btn btn-primary"  style="margin:7%"href="{% url 'scrap:add_photo' %}">Add photo</a><br><br>
+</div><br><br>
+<div style="display:block">
+
+        <a class="btn btn-primary" href="{%url 'accounts:password_change'%}">Password change</a><br><br>
+</div>
+
+
+
+
+
+{% endblock %}

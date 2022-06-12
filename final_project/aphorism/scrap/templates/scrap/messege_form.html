@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+
+{%block title%}
+        <title>{{title}}</title>
+    {%endblock title%}
+
+
+{% block content %}
+
+
+<br><br>
+<h3 style="margin-left:22%">{{rec}}</h3>
+
+<div style="border:6px inset grey;border-radius: 7px;padding:10px;width:50%">
+
+{% for mes in object_list %}
+<div style="border:2px solid grey;border-radius: 7px;margin:5%;background:#ccffcc">
+{% if request.user == mes.reciever %}
+    <p style=""> {{rec}}: <b>{{ mes.messege }}</b> </p>
+    {% if mes.nkar %}
+    <img src="{{mes.nkar.url}}" style="width:70px;margin-left:5%">
+    {%endif%}
+    {%else%}
+    <p  style="color:brown"> you: <b>{{ mes.messege }}</b> </p>
+    {% if mes.nkar %}
+    <img src="{{mes.nkar.url}}" style="width:70px;margin-left:5%">
+    {%endif%}{%endif%}
+    <p  style="color:brown">  {{ mes.date }} </p>
+    <a style="float:right"href="{% url 'scrap:delete_mes' mes.id%}"><b>D</b> </a>
+
+
+</div>
+{%endfor%}
+<br>
+
+{%if request.user.is_authenticated%}
+<form method="post" enctype="multipart/form-data" >{% csrf_token %}
+    {{ form.as_p }}
+    <input class="btn btn-primary btn-sm" type="submit" value="Send" >
+</form>
+{%endif%}</div>
+{% endblock content %}

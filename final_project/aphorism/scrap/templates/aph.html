@@ -9,12 +9,16 @@
 
 
 
-<div style="margin:20px;border-style: double;padding:10px">
-        <p >{{ object.quota }}</p><br>
+<div style="margin:30px;border-style: double;padding:10px">
+        <h4 class="text-center">{{ object.quota }}</h4><br>
+    <h5><a style="text-decoration:none;color:black;" href="{%url 'scrap:user_view' object.user.id%}"><i> {{ object.user.username }}</i></a></h5>
          {%if not object.author%}
             <td class="text-center">by: <b>{{ object.user.first_name }} {{ object.user.last_name }}</b></td>
             {%else%}
             <td class="text-center">by <b>{{ object.author }}</b></td>
+            {%endif%}
+            {%if object.picture%}
+            <img src="{{ object.picture.url }}" style="width:100px;float:center;margin-left:20%" alt="My image">
             {%endif%}
         <br><br>
         <p > {% for tag in object.tag.all %}{{ tag }} {% endfor %}</p><br>

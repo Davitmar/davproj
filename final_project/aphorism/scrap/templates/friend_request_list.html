@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+
+<br><br>
+
+    {%if request.user.is_authenticated%}
+
+
+
+
+
+{% for req in requests %}
+
+        <div class="container d-flex mt-5" style="border:6px inset grey;border-radius: 7px;padding:5px;width: 500px;height:100px">
+<h5 class="text-center"><a style="text-decoration:none;color:black;margin:10px" href="{%url 'scrap:user_view' req.id%}"><i> {{ req.username }}</i></a></h5>
+
+            <br><br>
+
+           <p style="margin:20px"> <b>{%if req.first_name%}{{req.first_name}} {{req.last_name}}{%endif%}</b></p>
+
+{%for friend in friend_subscribe%}
+            {% if friend.friend_sender == req %}
+            {%if friend.subscribe == True %}
+<h5 style="margin:30px;color:green" class="text-center"> Friend</h5>
+ <a href="{% url 'scrap:friend_reject' req.id %}" ><button style="float:right;margin-left:3px;background:#c4341a" class="btn btn-primary btn-sm">remove friend </button></a>
+            {%else%}
+            <a href="{% url 'scrap:friend_response' req.id %}" ><button style="float:top;margin-left:80px;background:#749d52" class="btn btn-primary btn-sm">add friend </button></a>
+ <a href="{% url 'scrap:friend_reject' req.id %}" ><button style="float:top;margin-left:10px;background:#c4341a" class="btn btn-primary btn-sm">reject friend </button></a>
+{%endif%}
+{%endif%}
+            {%endfor%}
+
+
+
+
+            <br>
+
+           </div>
+
+
+
+    {%endfor%}
+
+
+{%endif%}
+ {% endblock content %}

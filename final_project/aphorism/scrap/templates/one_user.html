@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{%load static%}
+
+
+{% block content %}
+
+{%if request.user.is_authenticated%}
+
+
+<div style="margin:30px;border-style: double;padding:10px">
+    <h5>{{ object.username }}</h5><br>
+
+    <h6 class="text-center"><b>{{ object.first_name }} {{ object.last_name }}</b></h6>
+    {%for photo in one_user_photos%}
+
+    <th><img src="{{ photo.image.url }}" style="width:100px;margin:1%" alt="My image"></th>
+
+    {%endfor%}
+    {%if request.user == object%}
+<a   href="{%url 'accounts:settings'%}"><button style="margin-left:5px;background:#3B9C9C" class="btn btn-primary btn-sm">Settings </button></a>
+{%endif%}
+    {% if friend %}
+    {% if friend.subscribe == True%}
+<a href="{% url 'scrap:friend_reject' object.id %}">
+        <button style="float:right;margin-left:3px;background:#c4341a" class="btn btn-primary btn-sm">remove friend
+        </button>
+    </a>
+    <h5 style="margin-right:8px;color:green;float:right" class="text-center"> Friend</h5>
+
+    {% elif friend.friend_reciever == request.user %}
+    <a href="{% url 'scrap:friend_reject' object.id %}">
+        <button style="float:right;margin-left:10px;background:#c4341a" class="btn btn-primary btn-sm">reject friend
+        </button>
+    </a>
+    <a href="{% url 'scrap:friend_response' object.id %}">
+        <button style="float:right;background:#749d52" class="btn btn-primary btn-sm">accept friend</button>
+    </a>
+  {%elif friend.friend_reciever == object %}
+<a href="{% url 'scrap:friend_send' object.id %}" ><button style="float:right;margin-left:3px;background:white"
+                                                               class="btn btn-primary btn-sm">cancel request </button></a>
+    {%endif%}
+     {%else%}
+    <a href="{% url 'scrap:friend_send' object.id %}" ><button style="float:right;margin-left:3px;background:#749d52"
+                                                               class="btn btn-primary btn-sm">add friend </button></a>
+    {%endif%}
+
+    <br>
+
+
+</div>
+{% for aph in quotas %}
+<div style="width:60%;border:6px inset grey;border-radius: 7px;padding:10px">
+
+
+    <h5 class="text-center"><i> {{ aph.quota }}</i></h5>
+    <br>
+
+
+    <td class="text-center">by: <b>{{aph.user.username}}</b></td>
+
+
+    <p style="margin-bottom:-5%">{{ aph.date.date }}</p>
+    {%if aph.picture%}
+    <img src="{{ aph.picture.url }}" style="width:70px;margin-left:40%" alt="My image">
+    {%endif%}
+    <br><br>
+
+    <td>Tags: {% for tag in aph.tag.all %}<a style="text-decoration:none;"
+                                             href="{% url 'scrap:get_aphs' %}?tag={{tag.id}}">
+        <button style="background:grey;border-radius:4px;">{{ tag }}</button>
+    </a>{% endfor %}
+    </td>
+
+
+    {%if request.user in aph.fav.all %}
+    <a href="{% url 'scrap:fav_add' aph.id %}">
+        <button style="float:top;margin-left:3px;background:#c4341a" class="btn btn-primary btn-sm">rem from favs
+        </button>
+    </a>
+    {%else%}
+    <a href="{% url 'scrap:fav_add' aph.id %}">
+        <button style="float:top;margin-left:10px;background:#749d52" class="btn btn-primary btn-sm">Add to favs
+        </button>
+    </a>
+
+
+    {%endif%}
+
+
+</div>
+<br><br>
+
+{% endfor %}
+<a href="{% url 'scrap:get_aphs' %}">Go back</a>{%endif%}
+
+
+{%endblock%}
+
+
+
